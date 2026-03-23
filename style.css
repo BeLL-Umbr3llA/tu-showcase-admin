@@ -1,0 +1,323 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+* { margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'Inter', sans-serif; }
+
+body { background: #f4f7f9; 
+    padding: 15px; }
+
+.dashboard-container {
+    max-width: 1000px; 
+    margin: 0 auto; 
+    background: #fff;
+    padding: 25px; 
+    border-radius: 15px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* --- Header & Settings Dropdown (ထပ်ဖြည့်ချက်) --- */
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.settings-container { position: relative; }
+
+.settings-icon-btn {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #64748b;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background: white;
+    min-width: 200px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    z-index: 1000;
+    border: 1px solid #eef2f7;
+    overflow: hidden;
+}
+
+.dropdown-menu.show { display: block; }
+
+.dropdown-header { 
+    padding: 12px 15px; 
+    font-size: 11px; 
+    color: #94a3b8; 
+    text-transform: uppercase; 
+    font-weight: bold; 
+    background: #f8fafc; 
+}
+
+.dropdown-menu a {
+    color: #334155; 
+    padding: 12px 15px; 
+    text-decoration: none;
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    font-size: 14px;
+}
+
+.dropdown-menu a:hover { background: #f1f5f9; color: #1a73e8; }
+.dropdown-divider { height: 1px; background: #e2e8f0; }
+.logout-link { color: #dc3545 !important; }
+
+h2 { text-align: center; 
+    color: #1a73e8; 
+    margin-bottom: 25px; }
+
+/* Tab Style */
+.tab-bar { 
+    display: flex; 
+    border-bottom: 2px solid #eee; 
+    margin-bottom: 20px; }
+
+.tab-btn { 
+    flex: 1; 
+    padding: 15px; 
+    border: none; 
+    background: none; 
+    cursor: pointer; 
+    font-weight: 600; 
+    color: #777; 
+    font-size: 15px; }
+
+.tab-btn.active { 
+    color: #1a73e8; 
+    border-bottom: 3px solid #1a73e8; 
+    background: #f0f7ff; 
+}
+
+/* Form Grid */
+.form-grid { 
+    display: grid; 
+    grid-template-columns: 1fr; 
+    gap: 15px; }
+
+@media (min-width: 768px) {
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr; 
+        max-width: 800px; 
+        margin: 0 auto;  
+        gap: 20px;
+    }
+    #major, #title, #img, #intro, #aim, #theory, #process, #con, #authors, .save-btn {
+        grid-column: span 1; 
+    }
+    textarea { min-height: 100px; }
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fff;
+    transition: 0.3s;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+    outline: none;
+}
+
+.save-btn { 
+    background: #28a745; 
+    color: white; padding: 15px; 
+    border: none; border-radius: 8px; 
+    font-weight: bold; cursor: pointer; 
+}
+
+/* --- Manage Tab Controls (HTML ထဲက controls-row နဲ့ ကိုက်အောင်ပြင်ထားသည်) --- */
+.controls-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+}
+
+.filter-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-dropdown {
+    width: 180px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+}
+
+.search-wrapper {
+    position: relative;
+    flex: 1; /* Search bar ကို အကျယ်ဆုံးယူခိုင်းမယ် */
+}
+
+.search-wrapper i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+#searchInput {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px 0 45px;
+    font-size: 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+#searchInput:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+/* --- Settings Tab Card Styling --- */
+.settings-card {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 25px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #eef2f7;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.form-group { margin-bottom: 15px; }
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 5px;
+}
+
+/* Table Section */
+.table-container { 
+    width: 100%; 
+    overflow-x: auto; 
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+table { width: 100%; border-collapse: collapse; }
+
+th, td { padding: 15px 10px; text-align: left; border-bottom: 1px solid #eee; }
+
+th { background: #f8f9fa; color: #555; font-size: 14px; text-transform: uppercase; }
+
+.badge { 
+    background: #e7f3ff; 
+    color: #1a73e8; 
+    padding: 4px 10px; 
+    border-radius: 6px; 
+    font-weight: 700; 
+    font-size: 11px; 
+}
+
+.action-btns { display: flex; gap: 8px; }
+
+.edit-btn { background: #ffc107; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+.del-btn { background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+
+/* Tab visibility logic */
+.tab-content { display: none; margin-top: 20px; }
+.tab-content.active { display: block !important; }
+
+@media (max-width: 768px) {
+    .controls-row { flex-direction: column; align-items: stretch; }
+    .filter-dropdown { width: 100%; }
+}
+
+.form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+
+/* CSS code များကို သင်၏ style.css သို့မဟုတ် <style> tag ထဲတွင် ထည့်ပါ */
+.old-images-preview-container {
+    display: none; /* Initially hide */
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.old-img-item {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.old-img-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ပုံကို အချိုးကျကျ ဖြတ်မယ် */
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.youtube-preview-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #f1f1f1;
+    color: #cc0000; /* YouTube Red */
+    border: 1px dashed #ccc;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.delete-old-img {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: rgba(255, 0, 0, 0.8); /* Red with opacity */
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.delete-old-img:hover {
+    background-color: rgba(255, 0, 0, 1);
+}

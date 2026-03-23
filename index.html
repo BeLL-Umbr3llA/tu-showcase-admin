@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TU Project Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Security check: Token မရှိရင် login ကိုချက်ချင်းလွှတ်မယ်
+        if (!localStorage.getItem('adminToken')) {
+            window.location.href = 'login.html';
+        }
+    </script>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <div class="header-flex">
+            <h2>🛠 TU Project Admin Dashboard</h2>
+            
+            <div class="settings-container">
+                <button onclick="toggleSettingsMenu()" class="settings-icon-btn" id="settingsBtn" aria-label="Settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+                
+                <div id="settingsDropdown" class="dropdown-menu">
+                    <div class="dropdown-header">Admin Panel</div>
+                    <a href="#" onclick="openTab(event, 'settings-tab'); toggleSettingsMenu();">
+                        <i class="fas fa-key"></i> Change Password
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" onclick="handleLogout()" class="logout-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-bar">
+            <button class="tab-btn active" id="btn-create" onclick="openTab(event, 'create-tab')">Create Project</button>
+            <button class="tab-btn" id="btn-manage" onclick="openTab(event, 'manage-tab')">Manage Projects</button>
+            <button class="tab-btn" id="btn-settings" onclick="openTab(event, 'settings-tab')" style="display:none;"></button>
+        </div>
+
+        <div id="create-tab" class="tab-content active">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="major">Select Major</label>
+                    <select id="major">
+                        <option value="">-- Select Major --</option>
+                        <option value="Civil">Civil Engineering (Civil)</option>
+                        <option value="EC">Electronic Engineering (EC)</option>
+                        <option value="EP">Electrical Power (EP)</option>
+                        <option value="Mech">Mechanical Engineering (Mech)</option>
+                        <option value="IT">Information Technology (CEIT)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="title">Project Title</label>
+                    <input type="text" id="title" placeholder="Enter title" autocomplete="off">
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="intro">Introduction (နိဒါန်း)</label>
+                    <textarea id="intro" placeholder="Write introduction..." autocomplete="off"></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="aim">Aim & Objectives </label>
+                    <textarea id="aim" placeholder="Aim 1, Aim 2, ...(Comma ဖြင့် ခွဲရေးပါ)" autocomplete="off"></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="theory">Theory (သီအိုရီပိုင်းဆိုင်ရာများ)</label>
+                    <textarea id="theory" placeholder="Describe the theory..." autocomplete="off"></textarea>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="process">Process Steps (လုပ်ဆောင်ချက်အဆင့်ဆင့်)</label>
+                    <textarea id="process" placeholder="Step 1, Step 2, ...(Comma ဖြင့် ခွဲရေးပါ)" autocomplete="off"></textarea>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="con">Conclusion (နိဂုံး)</label>
+                    <textarea id="con" placeholder="Write conclusion..." autocomplete="off"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="academicYear">Academic Year (ပညာသင်နှစ်)</label>
+                    <select id="academicYear" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                        <option value="">--Select Academic Year--</option>
+                        <option value="2022-23">2022-23</option>
+                        <option value="2023-24">2023-24</option>
+                        <option value="2024-25">2024-25</option>
+                        <option value="2025-26">2025-26</option>
+                        <option value="2026-27">2026-27</option>
+                    </select>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="authors">Students (နာမည်နှင့် Roll No.)</label>
+                    <textarea id="authors" placeholder="Name 1 (IC-1), Name 2 (IIC-2), ..." autocomplete="off"></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="youtubeUrl">YouTube Video URL (ရှိလျှင် ထည့်ရန်)</label>
+                    <input type="url" id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+
+                <div class="form-group full-width">
+                     <label for="imageFiles">Project Photos (ပုံများကို ရွေးချယ်ပါ)</label>
+                     <input type="file" id="imageFiles" accept="image/*" multiple autocomplete="off">
+                      <p style="font-size: 12px; color: #666; margin-top: 5px;">ပုံ ၅ ပုံအထိ တပြိုင်တည်း ရွေးချယ်နိုင်ပါသည်။</p>
+
+                     <div id="oldImagesPreview" class="old-images-preview-container" style="display: none;">
+                </div>
+        </div>
+                <div class="form-group">
+                    <label>Project Rating (အဆင့်သတ်မှတ်ချက်)</label>
+                    <div class="rating-stars" style="display: flex; gap: 10px; font-size: 25px; cursor: pointer; color: #ccc;">
+                        <span onclick="setRating(1)" class="star" id="star1">★</span>
+                        <span onclick="setRating(2)" class="star" id="star2">★</span>
+                        <span onclick="setRating(3)" class="star" id="star3">★</span>
+                        <span onclick="setRating(4)" class="star" id="star4">★</span>
+                        <span onclick="setRating(5)" class="star" id="star5">★</span>
+                    </div>
+                    <input type="hidden" id="ratingValue" value="0">
+                </div>
+                
+                <button class="save-btn" onclick="sendData()">Upload to Cloud</button>
+            </div>
+        </div>
+
+        <div id="manage-tab" class="tab-content">
+            <div class="controls-row">
+                <div class="filter-box">
+                    <label for="majorFilter"><i class="fas fa-filter"></i> Major:</label>
+                    <select id="majorFilter" class="filter-dropdown" onchange="filterByMajor(this.value)">
+                        <option value="All">All Projects</option>
+                        <option value="Civil">Civil</option>
+                        <option value="EC">EC</option>
+                        <option value="EP">EP</option>
+                        <option value="Mech">Mech</option>
+                        <option value="IT">IT</option>
+                    </select>
+                </div>
+                <div class="search-wrapper">
+                    <label for="searchInput" style="display:none;">Search</label>
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search project title..." onkeyup="searchProjects(this.value)">
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">Major</th>
+                            <th style="width: 65%;">Project Title</th>
+                            <th style="width: 20%;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projectList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="settings-tab" class="tab-content">
+            <div class="settings-card">
+                <h3><i class="fas fa-key"></i> Security Settings</h3>
+                <div class="form-group">
+                    <label for="oldPass">Current Password</label>
+                    <input type="password" id="oldPass" placeholder="Current password">
+                </div>
+                <div class="form-group">
+                    <label for="newPass">New Password</label>
+                    <input type="password" id="newPass" placeholder="New password">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPass">Confirm Password</label>
+                    <input type="password" id="confirmPass" placeholder="Re-type password">
+                </div>
+                <button onclick="handlePasswordChange()" class="save-btn" style="width: 100%;">Update Password</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Dropdown toggle logic
+        function toggleSettingsMenu() {
+            document.getElementById("settingsDropdown").classList.toggle("show");
+        }
+        
+        // Window click handler to close dropdown
+        window.onclick = function(event) {
+            if (!event.target.closest('.settings-container')) {
+                var dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    dropdowns[i].classList.remove('show');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
