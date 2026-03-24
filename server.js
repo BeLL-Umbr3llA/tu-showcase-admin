@@ -184,8 +184,47 @@ app.delete('/api/delete-project/:id', async (req, res) => {
         res.status(200).json({ message: "ဖျက်သိမ်းပြီးပါပြီ!" });
     } catch (err) { res.status(500).json({ error: "ဖျက်၍ မရပါ" }); }
 });
+
+// --- Admin Password Change API ---
+app.post('/api/admin/change-password', async (req, res) => {
+    const { username, oldPassword, newPassword } = req.body;
+
+    try {
+        // ၁။ လက်ရှိ Admin ကို Username နဲ့ Password အဟောင်း သုံးပြီး ရှာမယ်
+        const admin = await Admin.findOne({ username, password: oldPassword });
+
+        if (!admin) {
+            // အကယ်၍ Password အဟောင်း မှားနေရင်
+            return res.status(401).json({ 
+                success: false, 
+                message: "Password အဟောင်း မှားယွင်းနေပါသည်။" 
+            });
+        }
+
+        // ၂။ Password အသစ်ကို အစားထိုးပြီး Save လုပ်မယ်
+        admin.password = newPassword;
+        await admin.save();
+
+        res.status(200).json({ 
+            success: true, 
+            message: "Password ကို အောင်မြင်စွာ ပြောင်းလဲပြီးပါပြီ။" 
+        });
+
+    } catch (err) {
+        console.error("❌ Password Change Error:", err);
+        res.status(500).json({ 
+            success: false, 
+            message: "Server Error ဖြစ်ပွားနေပါသည်။" 
+        });
+    }
+});
+
+
+
 // server.js ထဲမှာ ရှာပြင်ရန်
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`🚀 Backend server is running on port ${PORT}`);
 });
+
+
