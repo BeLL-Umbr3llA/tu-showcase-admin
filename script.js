@@ -1,4 +1,6 @@
-const API_URL = 'http://localhost:5000/api' || 'https://tu-showcase-admin.vercel.app/api';
+const API_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:5000/api' 
+    : 'https://tu-showcase-admin.vercel.app/api';
 let allProjects = [];
 let editMode = false;
 let currentEditId = null;
