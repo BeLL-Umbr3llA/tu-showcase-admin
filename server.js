@@ -184,6 +184,8 @@ app.delete('/api/delete-project/:id', async (req, res) => {
         res.status(200).json({ message: "ဖျက်သိမ်းပြီးပါပြီ!" });
     } catch (err) { res.status(500).json({ error: "ဖျက်၍ မရပါ" }); }
 });
-
+// server.js ထဲမှာ ရှာပြင်ရန်
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Backend server is running on port ${PORT}`));
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`🚀 Backend server is running on port ${PORT}`);
+});
